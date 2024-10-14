@@ -1,0 +1,88 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  flex-wrap: wrap; /* Allow wrapping on small screens */
+}
+
+.navbar h1 {
+  margin: 0;
+  font-size: 1.5rem; /* Responsive font size */
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.navbar ul li {
+  display: inline;
+}
+
+.navbar ul li a {
+  color: white;
+  text-decoration: none;
+}
+
+.navbar ul li a:hover {
+  text-decoration: underline;
+}
+
+.logout-btn {
+  border: none;
+  outline: none;
+  width: 100px;
+  height: 30px;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: white;
+}
+
+.logout-btn:hover {
+  background-color: rgb(247, 242, 242);
+}
+
+/* Media query for screens smaller than 768px (mobile) */
+@media (max-width: 768px) {
+  .navbar h1 {
+    font-size: 1.3rem; /* Slightly smaller heading for mobile */
+  }
+
+  .navbar ul {
+    display: flex;
+    flex-direction: column; /* Stack links vertically */
+    gap: 10px;
+    width: 100%; /* Take full width */
+    align-items: flex-start;
+    margin-top: 10px;
+  }
+
+  .navbar ul li {
+    display: block; /* Make each item block for full width */
+  }
+
+  .navbar ul li a {
+    font-size: 1.1rem; /* Slightly larger font for touch-friendly links */
+  }
+}
+
+@media (max-width: 400px) {
+  .navbar {
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .navbar h1 {
+    margin-bottom: 10px;
+    font-size: 1.2rem; /* Responsive font size */
+  }
+
+  .logout-btn {
+    width: 85px;
+    height: 25px;
+  }
+}
