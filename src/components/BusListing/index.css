@@ -1,13 +1,13 @@
 .bus-listing {
-  width: 90%; /* Use a flexible width for smaller screens */
-  max-width: 1200px; /* Cap the maximum width for larger screens */
-  margin: 30px auto; /* Adjust margin for better spacing */
+  width: 90%;
+  max-width: 1200px;
+  margin: 30px auto;
 }
 
 .bus-listing h2 {
   text-align: center;
   margin-bottom: 20px;
-  font-size: 1.5rem; /* Responsive font size */
+  font-size: 1.5rem;
 }
 
 .bus-listing ul {
@@ -17,14 +17,13 @@
 
 .bus-listing li {
   padding: 15px;
-  margin-bottom: 15px; /* Increased spacing for readability */
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   background-color: #f9f9f9;
   transition: transform 0.3s ease;
   width: 50%;
   min-width: 200px;
-  margin: auto;
+  margin: 15px auto;
 }
 
 .bus-listing li:hover {
@@ -33,14 +32,14 @@
 
 .bus-info {
   display: flex;
-  flex-direction: column; /* Stack items vertically for smaller screens */
+  flex-direction: column;
   justify-content: space-between;
-  align-items: flex-start; /* Align items to the left for smaller screens */
+  align-items: flex-start;
 }
 
 .bus-info p {
-  margin: 8px 0; /* Adjust spacing between paragraphs */
-  font-size: 1rem; /* Responsive font size */
+  margin: 8px 0;
+  font-size: 1rem;
 }
 
 .bus-info button {
@@ -64,19 +63,18 @@
   background-color: #218838;
 }
 
-/* Media query for tablets and up (min-width: 768px) */
 @media (min-width: 576px) {
   .bus-listing li {
-    min-width: 100%;
+    min-width: 90%;
   }
 
   .bus-info {
-    flex-direction: row; /* Align items horizontally on tablets */
+    flex-direction: row;
     align-items: center;
   }
 
   .bus-info p {
-    font-size: 1.1rem; /* Slightly larger font for tablets */
+    font-size: 1.1rem;
   }
 
   .bus-info button {
@@ -84,17 +82,16 @@
   }
 }
 
-/* Media query for larger desktops (min-width: 1024px) */
 @media (min-width: 1024px) {
   .bus-listing {
-    width: 80%; /* Reduced width for larger screens */
+    width: 80%;
   }
 
   .bus-info p {
-    font-size: 1.2rem; /* Larger font for desktop */
+    font-size: 1.2rem;
   }
 
   .bus-info button {
-    font-size: 1.1rem; /* Larger button text */
+    font-size: 1.1rem;
   }
 }

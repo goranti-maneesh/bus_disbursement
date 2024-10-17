@@ -1,23 +1,30 @@
 import React, { createContext, useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
+import Cookies from "js-cookie";
 
-// Create a context
 export const BookingContext = createContext();
 
+const savedStudentData = localStorage.getItem("Student and Booking details");
+
 export const BookingProvider = ({ children }) => {
+  const history = useHistory();
+
   const [studentData, setStudentData] = useState(() => {
-    // Retrieve student data from localStorage (if it exists) when the app starts
-    const savedStudentData = localStorage.getItem("studentData");
-    return savedStudentData ? JSON.parse(savedStudentData) : {};
+    return savedStudentData ? JSON.parse(savedStudentData).studentData : {};
   });
 
-  const [busData, setBusData] = useState(null);
+  const [busData, setBusData] = useState(() => {
+    return savedStudentData ? JSON.parse(savedStudentData).busData : {};
+  });
 
   useEffect(() => {
-    // Store student data in localStorage whenever it changes
     if (studentData) {
-      localStorage.setItem("studentData", JSON.stringify(studentData));
+      localStorage.setItem(
+        "Student and Booking details",
+        JSON.stringify({ studentData, busData })
+      );
     }
-  }, [studentData]);
+  }, [studentData, busData]);
 
   return (
     <BookingContext.Provider

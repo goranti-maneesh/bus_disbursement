@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
 
-import { deployedApiUrl, developmentApiUrl } from "../../common";
+import { apiUrl, tickImage } from "../../common";
 import { BookingContext } from "../../context/context";
 
 import "./index.css";
@@ -10,20 +10,37 @@ import Navbar from "../Navbar";
 
 const BusListing = () => {
   const [buses, setBuses] = useState([]);
+  const [bookingDetails, setBookingDetails] = useState({});
   const [loading, setLoading] = useState(true);
+  const [alreadyBooked, setAlreadyBookedStatus] = useState(false);
   const { setBusData, studentData } = useContext(BookingContext);
   const history = useHistory();
 
   useEffect(() => {
     const fetchBuses = async () => {
       try {
-        const { destination } = studentData; // For example, use dynamic destination from user profile
+        const { destination } = studentData;
+        const options = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            studentID: studentData.studentID,
+          }),
+        };
+
         const res = await fetch(
-          `${deployedApiUrl}/api/buses?destination=${destination}`
+          `${apiUrl}/api/buses?destination=${destination}`,
+          options
         );
-        console.log(destination);
         const data = await res.json();
-        setBuses(data);
+        setAlreadyBookedStatus(data.alreadyBooked);
+        if (data.alreadyBooked) {
+          setBookingDetails(data.data);
+        } else {
+          setBuses(data.data);
+        }
         setLoading(false);
       } catch (error) {
         console.error("Error fetching buses:", error);
@@ -33,7 +50,8 @@ const BusListing = () => {
   }, []);
 
   const onClickSelectedBus = (bus) => {
-    setBusData(bus); // Store selected bus in context
+    setBusData(bus);
+    console.log(bus, "bus listing");
     history.push(`/booking/${bus.busID}`);
   };
 
@@ -54,9 +72,8 @@ const BusListing = () => {
     );
   }
 
-  return (
-    <div>
-      <Navbar />
+  const renderBusesList = () => {
+    return (
       <div className="bus-listing">
         <h2>Available Buses</h2>
         <ul>
@@ -75,6 +92,42 @@ const BusListing = () => {
           ))}
         </ul>
       </div>
+    );
+  };
+
+  const renderAlreadyBookedUI = () => {
+    return (
+      <div className="booking-container">
+        <div className="booked-details-container">
+          <h1>Already Booked a seat</h1>
+          <div className="img-container">
+            <img src={tickImage} alt="Success" className="success-img" />
+          </div>
+          <p>
+            <span>Destination: </span>
+            {bookingDetails.destination}
+          </p>
+          <p>
+            <span>Timings: </span>
+            {bookingDetails.busTiming}
+          </p>
+          <p>
+            <span>Name: </span>
+            {bookingDetails.studentName}
+          </p>
+          <p>
+            <span>ID: </span>
+            {bookingDetails.studentID}
+          </p>
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <div>
+      <Navbar />
+      {alreadyBooked ? renderAlreadyBookedUI() : renderBusesList()}
     </div>
   );
 };

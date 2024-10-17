@@ -2,8 +2,9 @@ import React, { useState, useEffect, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import Cookies from "js-cookie";
 
-import { deployedApiUrl, developmentApiUrl } from "../../common";
+import { apiUrl } from "../../common";
 import { BookingContext } from "../../context/context";
+import { isLoggedIn } from "../../common/auth";
 
 import "./index.css";
 
@@ -11,14 +12,14 @@ const Login = () => {
   const [studentID, setStudentID] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const { setStudentData } = useContext(BookingContext);
+  const { setStudentData, studentData } = useContext(BookingContext);
   const history = useHistory();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch(`${deployedApiUrl}/api/login`, {
+      const res = await fetch(`${apiUrl}/api/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ studentID, password }),
@@ -30,8 +31,10 @@ const Login = () => {
           name: data.user.name,
           destination: data.user.destination,
         });
-        Cookies.set("Bus_disbursement_JWT_token", data.token, { expires: 1 });
-        history.push("/buses");
+        Cookies.set("Bus_disbursement_JWT_token", data.token, {
+          expires: 1 / 24,
+        });
+        history.replace("/buses");
       } else {
         alert(data.msg);
       }
@@ -42,12 +45,13 @@ const Login = () => {
   };
 
   useEffect(() => {
-    const JWTtoken = Cookies.get("Bus_disbursement_JWT_token");
-
-    if (JWTtoken === undefined) {
-      history.push("/login");
+    console.log("login", isLoggedIn(studentData));
+    if (isLoggedIn(studentData)) {
+      history.replace("/login");
+    } else {
+      history.replace("/buses");
     }
-  });
+  }, []);
 
   return (
     <div className="login-container">

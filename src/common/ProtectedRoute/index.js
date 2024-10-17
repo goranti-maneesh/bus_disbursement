@@ -1,12 +1,14 @@
-import Cookies from "js-cookie";
+import { useContext } from "react";
 import { Route, Redirect } from "react-router-dom";
 
 import Login from "../../components/Login";
+import { BookingContext } from "../../context/context";
+import { isLoggedIn } from "../../common/auth";
 
 const ProtectedRoute = (props) => {
-  const JWTtoken = Cookies.get("Bus_disbursement_JWT_token");
+  const { studentData } = useContext(BookingContext);
 
-  if (JWTtoken === undefined) {
+  if (isLoggedIn(studentData)) {
     return <Redirect to="/login" />;
   }
 

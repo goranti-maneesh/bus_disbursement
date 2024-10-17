@@ -9,8 +9,9 @@ const Navbar = () => {
 
   const removeJwtTokenCookie = () => {
     Cookies.remove("Bus_disbursement_JWT_token");
+    localStorage.removeItem("Student and Booking details");
 
-    history.push("/login");
+    history.replace("/login");
   };
 
   return (
